@@ -39,10 +39,16 @@ class BaseExperiment(object):
         self.trainer = self._init_trainer(self.args, callbacks, strategy)
 
     def _init_trainer(self, args, callbacks, strategy):
-        return Trainer(devices=args.gpus,  # Use these GPUs
+        if torch.cuda.is_available():
+            accelerator, devices = 'gpu', args.gpus
+        elif torch.backends.mps.is_available():
+            accelerator, devices = 'mps', 1  # Apple Silicon GPU
+        else:
+            accelerator, devices = 'cpu', 1
+        return Trainer(devices=devices,  # Use these GPUs
                        max_epochs=args.epoch,  # Maximum number of epochs to train for
                        strategy=strategy,   # 'ddp', 'deepspeed_stage_2', 'ddp_find_unused_parameters_false'
-                       accelerator='gpu',  # Use distributed data parallel
+                       accelerator=accelerator,  # 'gpu', 'mps', or 'cpu'
                        callbacks=callbacks
                     )
 
@@ -103,10 +109,13 @@ class BaseExperiment(object):
         """Plot the basic infomation of supported methods"""
         device = torch.device(args.device)
         if args.device == 'cuda':
-            assign_gpu = 'cuda:' + (str(args.gpus[0]) if len(args.gpus) == 1 else '0')
-            device = torch.device(assign_gpu)
+            if not torch.cuda.is_available():
+                device = torch.device('mps' if torch.backends.mps.is_available() else 'cpu')
+            else:
+                assign_gpu = 'cuda:' + (str(args.gpus[0]) if len(args.gpus) == 1 else '0')
+                device = torch.device(assign_gpu)
         T, C, H, W = args.in_shape
-        if args.method in ['simvp', 'tau', 'mmvp', 'wast']:
+        if args.method in ['simvp', 'tau', 'mmvp', 'wast', 'stlight']:
             input_dummy = torch.ones(1, args.pre_seq_length, C, H, W).to(device)
         elif args.method == 'phydnet':
             _tmp_input1 = torch.ones(1, args.pre_seq_length, C, H, W).to(device)
