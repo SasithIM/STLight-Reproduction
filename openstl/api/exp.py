@@ -13,6 +13,7 @@ from openstl.utils import (get_dataset, measure_throughput, SetupCallback, Epoch
 
 from lightning import seed_everything, Trainer
 import lightning.pytorch.callbacks as lc
+from lightning.pytorch.loggers import CSVLogger
 
 
 class BaseExperiment(object):
@@ -45,11 +46,14 @@ class BaseExperiment(object):
             accelerator, devices = 'mps', 1  # Apple Silicon GPU
         else:
             accelerator, devices = 'cpu', 1
+        # CSV logger: per-epoch train/val losses -> <save_dir>/metrics/version_0/metrics.csv
+        logger = CSVLogger(save_dir=self.save_dir, name='metrics')
         return Trainer(devices=devices,  # Use these GPUs
                        max_epochs=args.epoch,  # Maximum number of epochs to train for
                        strategy=strategy,   # 'ddp', 'deepspeed_stage_2', 'ddp_find_unused_parameters_false'
                        accelerator=accelerator,  # 'gpu', 'mps', or 'cpu'
-                       callbacks=callbacks
+                       callbacks=callbacks,
+                       logger=logger
                     )
 
     def _load_callbacks(self, args, save_dir, ckpt_dir):
