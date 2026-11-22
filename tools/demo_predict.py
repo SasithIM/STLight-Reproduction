@@ -45,7 +45,9 @@ def load_model(exp_dir, device):
 
 
 def get_test_samples(data_path, n_samples, seed=0):
-    seqs = np.load(data_path)  # (10000, 20, 64, 64) uint8, 20-frame sequences
+    seqs = np.load(data_path, mmap_mode='r')
+    if seqs.shape[0] == 20:  # Official Moving MNIST stores time before sample.
+        seqs = seqs.transpose(1, 0, 2, 3)
     rng = np.random.RandomState(seed)
     idx = rng.choice(seqs.shape[0], size=n_samples, replace=False)
     batch = seqs[idx, :10].astype(np.float32) / 255.0   # first 10 frames = input
@@ -67,8 +69,10 @@ def make_gif(rows, titles, out_path, fps=4):
         ax.set_xticks([]), ax.set_yticks([])
 
     def update(t):
-        return [img.set_data(row[t]) for row_imgs, row in zip(imgs, rows)
-                for img in row_imgs]
+        for row_imgs, row in zip(imgs, rows):
+            for img in row_imgs:
+                img.set_data(row[t])
+        return [img for row_imgs in imgs for img in row_imgs]
 
     anim = FuncAnimation(fig, update, frames=n_frames, interval=1000 // fps, blit=True)
     anim.save(out_path, writer=PillowWriter(fps=fps))
@@ -107,9 +111,9 @@ def main():
     import os
     os.makedirs(out_dir, exist_ok=True)
     for i in range(pred.shape[0]):
-        mse = float(np.mean((pred[i] - target_np[i]) ** 2)) * 255 ** 2
+        mse = float(np.mean((pred[i, :, 0] - target_np[i]) ** 2)) * 255 ** 2
         inp = x[i, :, 0].numpy()
-        make_gif([inp, target_np[i, :, 0], pred[i, :, 0]],
+        make_gif([inp, target_np[i], pred[i, :, 0]],
                  ['input (given)', 'ground truth', 'STLight prediction'],
                  osp.join(out_dir, f'live_sample_{i}.gif'))
         print(f'sample {i}: MSE(x255) = {mse:.2f} -> live_sample_{i}.gif')

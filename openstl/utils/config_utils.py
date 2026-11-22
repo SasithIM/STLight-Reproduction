@@ -33,7 +33,7 @@ class Config:
     
     @staticmethod
     def _validate_py_syntax(filename):
-        with open(filename, 'r') as f:
+        with open(filename, 'r', encoding='utf-8') as f:
             content = f.read()
         try:
             ast.parse(content)
@@ -52,13 +52,13 @@ class Config:
             fileBasename=file_basename,
             fileBasenameNoExtension=file_basename_no_extension,
             fileExtname=file_extname)
-        with open(filename, 'r') as f:
+        with open(filename, 'r', encoding='utf-8') as f:
             config_file = f.read()
         for key, value in support_templates.items():
             regexp = r'\{\{\s*' + str(key) + r'\s*\}\}'
             value = value.replace('\\', '/')
             config_file = re.sub(regexp, value, config_file)
-        with open(temp_config_name, 'w') as tmp_config_file:
+        with open(temp_config_name, 'w', encoding='utf-8') as tmp_config_file:
             tmp_config_file.write(config_file)
 
     @staticmethod
@@ -71,7 +71,8 @@ class Config:
 
         with tempfile.TemporaryDirectory() as temp_config_dir:
             temp_config_file = tempfile.NamedTemporaryFile(
-                dir=temp_config_dir, suffix=fileExtname)
+                dir=temp_config_dir, suffix=fileExtname, delete=False)
+            temp_config_file.close()  # Windows cannot reopen an open temporary file.
             temp_config_name = osp.basename(temp_config_file.name)
 
             # Substitute predefined variables

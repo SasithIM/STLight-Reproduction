@@ -45,8 +45,11 @@ def collect_env():
         for name, devids in devices.items():
             env_info['GPU ' + ','.join(devids)] = name
 
-    gcc = subprocess.check_output('gcc --version | head -n1', shell=True)
-    gcc = gcc.decode('utf-8').strip()
+    try:
+        gcc = subprocess.check_output(['gcc', '--version'], stderr=subprocess.STDOUT)
+        gcc = gcc.decode('utf-8', errors='replace').splitlines()[0]
+    except (OSError, subprocess.SubprocessError):
+        gcc = 'Not Available'
     env_info['GCC'] = gcc
 
     env_info['PyTorch'] = torch.__version__

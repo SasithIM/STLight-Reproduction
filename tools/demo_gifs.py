@@ -24,7 +24,7 @@ def make_gif(rows, titles, out_path, fps=4, figsize=(2.2, 2.2)):
     n_rows, n_frames = len(rows), rows[0].shape[0]
     fig, axes = plt.subplots(n_rows, n_frames, figsize=(figsize[0] * n_frames, figsize[1] * n_rows))
     axes = np.atleast_2d(axes)
-    imgs = [[ax.imshow(frame[0], cmap='gray', vmin=0, vmax=1) for ax, frame in zip(ax_row, row)]
+    imgs = [[ax.imshow(row[0], cmap='gray', vmin=0, vmax=1) for ax in ax_row]
             for ax_row, row in zip(axes, rows)]
     for ax_row, title in zip(axes, titles):
         ax_row[0].set_ylabel(title, rotation=90, fontsize=9, labelpad=8)
@@ -33,8 +33,8 @@ def make_gif(rows, titles, out_path, fps=4, figsize=(2.2, 2.2)):
 
     def update(t):
         for row_imgs, row in zip(imgs, rows):
-            for img, frame in zip(row_imgs, row):
-                img.set_data(frame[t])
+            for img in row_imgs:
+                img.set_data(row[t])
         return [img for row_imgs in imgs for img in row_imgs]
 
     anim = FuncAnimation(fig, update, frames=n_frames, interval=1000 // fps, blit=True)
@@ -50,9 +50,9 @@ def main():
     args = parser.parse_args()
 
     saved = osp.join(args.res_dir, 'saved')
-    inputs = np.load(osp.join(saved, 'inputs.npy'))    # (N, T_in, C, H, W)
-    preds = np.load(osp.join(saved, 'preds.npy'))      # (N, T_out, C, H, W)
-    trues = np.load(osp.join(saved, 'trues.npy'))      # (N, T_out, C, H, W)
+    inputs = np.load(osp.join(saved, 'inputs.npy'), mmap_mode='r')
+    preds = np.load(osp.join(saved, 'preds.npy'), mmap_mode='r')
+    trues = np.load(osp.join(saved, 'trues.npy'), mmap_mode='r')
     metrics = np.load(osp.join(saved, 'metrics.npy')) if osp.exists(osp.join(saved, 'metrics.npy')) else None
 
     demo_dir = osp.join(args.res_dir, 'demo')
@@ -60,8 +60,12 @@ def main():
     os.makedirs(demo_dir, exist_ok=True)
 
     # overall metrics
-    mse = float(np.mean((preds - trues) ** 2))
-    mae = float(np.mean(np.abs(preds - trues)))
+    squared_error = absolute_error = 0.0
+    for start in range(0, len(preds), 64):
+        diff = preds[start:start + 64] - trues[start:start + 64]
+        squared_error += float(np.sum(diff ** 2, dtype=np.float64))
+        absolute_error += float(np.sum(np.abs(diff), dtype=np.float64))
+    mse, mae = squared_error / preds.size, absolute_error / preds.size
     lines = [f'samples: {preds.shape[0]}  in-frames: {inputs.shape[1]}  out-frames: {preds.shape[1]}',
              f'MSE (this test set): {mse:.2f}   MAE: {mae:.2f}',
              'paper Table 3 (MMNIST, 200 ep): XS MSE 24.48 / MAE 71.21 ; S MSE 23.29 / MAE 68.33',
