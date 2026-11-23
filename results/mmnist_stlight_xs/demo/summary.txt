@@ -1,0 +1,8 @@
+samples: 10000  in-frames: 10  out-frames: 10
+MSE (this test set): 0.01   MAE: 0.02
+paper Table 3 (MMNIST, 200 ep): XS MSE 24.48 / MAE 71.21 ; S MSE 23.29 / MAE 68.33
+
+metrics.npy (mae, mse): [102.28738403320312, 39.999000549316406]
+sample 9394: per-sample MSE 0.01 -> sample_9394.gif
+sample 898: per-sample MSE 0.01 -> sample_898.gif
+sample 2398: per-sample MSE 0.01 -> sample_2398.gif

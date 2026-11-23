@@ -129,7 +129,9 @@ lightning_logs/
 .DS_Store
 *.json
 
-results
+# Keep completed reproduction artifacts, including their training logs.
+!results/
+!results/**
 figs
 .vscode
 .ipynb_checkpoints

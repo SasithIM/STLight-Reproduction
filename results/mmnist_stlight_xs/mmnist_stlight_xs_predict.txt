@@ -1,0 +1,7 @@
+device: cuda
+STLight (224x16) � 1.05M params
+sample 0: MSE(x255) = 888.07 -> live_sample_0.gif
+sample 1: MSE(x255) = 657.12 -> live_sample_1.gif
+sample 2: MSE(x255) = 376.58 -> live_sample_2.gif
+
+GIFs saved to work_dirs/mmnist_stlight_xs\demo

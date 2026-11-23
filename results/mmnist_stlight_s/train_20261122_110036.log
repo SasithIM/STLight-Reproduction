@@ -1,0 +1,379 @@
+2026-11-22 11:00:37,141 - Environment info:
+------------------------------------------------------------
+sys.platform: win32
+Python: 3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]
+CUDA available: True
+CUDA_HOME: None
+GPU 0: NVIDIA GeForce RTX 4060 Laptop GPU
+GCC: gcc (Rev8, Built by MSYS2 project) 15.2.0
+PyTorch: 2.5.1+cu121
+PyTorch compiling details: PyTorch built with:
+  - C++ Version: 201703
+  - MSVC 192930154
+  - Intel(R) oneAPI Math Kernel Library Version 2024.2.2-Product Build 20240823 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.5.3 (Git Hash 66f0cb9eb66affd2da3bf5f8d897376f04aae6af)
+  - OpenMP 2019
+  - LAPACK is enabled (usually provided by MKL)
+  - CPU capability usage: AVX2
+  - CUDA Runtime 12.1
+  - NVCC architecture flags: -gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90
+  - CuDNN 90.1  (built against CUDA 12.4)
+  - Magma 2.5.4
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=12.1, CUDNN_VERSION=9.1.0, CXX_COMPILER=C:/actions-runner/_work/pytorch/pytorch/builder/windows/tmp_bin/sccache-cl.exe, CXX_FLAGS=/DWIN32 /D_WINDOWS /GR /EHsc /Zc:__cplusplus /bigobj /FS /utf-8 -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DLIBKINETO_NOCUPTI -DLIBKINETO_NOROCTRACER -DLIBKINETO_NOXPUPTI=ON -DUSE_FBGEMM -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE /wd4624 /wd4068 /wd4067 /wd4267 /wd4661 /wd4717 /wd4244 /wd4804 /wd4273, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, TORCH_VERSION=2.5.1, USE_CUDA=ON, USE_CUDNN=ON, USE_CUSPARSELT=OFF, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=OFF, USE_NNPACK=OFF, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, 
+
+TorchVision: 0.20.1+cu121
+OpenCV: 4.11.0
+openstl: 1.0.0
+------------------------------------------------------------
+
+2026-11-22 11:00:37,142 - 
+device: 	cuda	
+dist: 	False	
+res_dir: 	work_dirs	
+ex_name: 	mmnist_stlight_s	
+fp16: 	False	
+torchscript: 	False	
+seed: 	42	
+fps: 	False	
+test: 	False	
+deterministic: 	False	
+batch_size: 	16	
+val_batch_size: 	64	
+num_workers: 	0	
+data_root: 	./data	
+dataname: 	mmnist	
+pre_seq_length: 	10	
+aft_seq_length: 	10	
+total_length: 	20	
+use_augment: 	False	
+use_prefetcher: 	False	
+drop_last: 	False	
+method: 	stlight	
+config_file: 	configs/mmnist/STLight_S.py	
+model_type: 	gSTA	
+drop: 	0.0	
+drop_path: 	0.0	
+overwrite: 	False	
+epoch: 	200	
+log_step: 	1	
+opt: 	adam	
+opt_eps: 	None	
+opt_betas: 	None	
+momentum: 	0.9	
+weight_decay: 	0.0	
+clip_grad: 	None	
+clip_mode: 	norm	
+no_display_method_info: 	False	
+sched: 	onecycle	
+lr: 	0.003	
+lr_k_decay: 	1.0	
+warmup_lr: 	1e-05	
+min_lr: 	1e-06	
+final_div_factor: 	10000.0	
+warmup_epoch: 	0	
+decay_epoch: 	100	
+decay_rate: 	0.1	
+filter_bias_and_bn: 	False	
+gpus: 	[0]	
+metric_for_bestckpt: 	val_loss	
+ckpt_path: 	None	
+dim: 	424	
+depth: 	16	
+patch_size: 	2	
+overlapping: 	0	
+K_1: 	3	
+K_2: 	7	
+in_shape: 	[10, 1, 64, 64]	
+data_name: 	mnist	
+metrics: 	['mse', 'mae', 'ssim', 'psnr']	
+2026-11-22 11:00:37,143 - Model info:
+STLight_Model(
+  (patch_encoder): Sequential(
+    (0): Conv2d(10, 424, kernel_size=(2, 2), stride=(2, 2))
+    (1): BatchNorm2d(424, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): GELU(approximate='none')
+  )
+  (net): ModuleList(
+    (0-15): 16 x Sequential(
+      (0): Residual(
+        (fn): Sequential(
+          (0): Conv2d(424, 424, kernel_size=(3, 3), stride=(1, 1), padding=same, groups=424)
+          (1): Conv2d(424, 424, kernel_size=(7, 7), stride=(1, 1), padding=same, dilation=(3, 3), groups=424)
+          (2): GELU(approximate='none')
+          (3): BatchNorm2d(424, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        )
+      )
+      (1): Sequential(
+        (0): Conv2d(424, 424, kernel_size=(1, 1), stride=(1, 1))
+        (1): GELU(approximate='none')
+        (2): BatchNorm2d(424, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+  )
+  (patch_reassemble): Conv2d(106, 10, kernel_size=(1, 1), stride=(1, 1))
+  (up): PixelShuffle(upscale_factor=2)
+)
+| module                  | #parameters or shape   | #flops   |
+|:------------------------|:-----------------------|:---------|
+| model                   | 3.337M                 | 3.039G   |
+| patch_encoder           | 18.232K                | 19.538M  |
+| patch_encoder.0         | 17.384K                | 17.367M  |
+| patch_encoder.0.weight  | (424, 10, 2, 2)        |          |
+| patch_encoder.0.bias    | (424,)                 |          |
+| patch_encoder.1         | 0.848K                 | 2.171M   |
+| patch_encoder.1.weight  | (424,)                 |          |
+| patch_encoder.1.bias    | (424,)                 |          |
+| net                     | 3.317M                 | 3.015G   |
+| net.0                   | 0.207M                 | 0.188G   |
+| net.0.0.fn              | 26.288K                | 2.171M   |
+| net.0.1                 | 0.181M                 | 0.186G   |
+| net.1                   | 0.207M                 | 0.188G   |
+| net.1.0.fn              | 26.288K                | 2.171M   |
+| net.1.1                 | 0.181M                 | 0.186G   |
+| net.2                   | 0.207M                 | 0.188G   |
+| net.2.0.fn              | 26.288K                | 2.171M   |
+| net.2.1                 | 0.181M                 | 0.186G   |
+| net.3                   | 0.207M                 | 0.188G   |
+| net.3.0.fn              | 26.288K                | 2.171M   |
+| net.3.1                 | 0.181M                 | 0.186G   |
+| net.4                   | 0.207M                 | 0.188G   |
+| net.4.0.fn              | 26.288K                | 2.171M   |
+| net.4.1                 | 0.181M                 | 0.186G   |
+| net.5                   | 0.207M                 | 0.188G   |
+| net.5.0.fn              | 26.288K                | 2.171M   |
+| net.5.1                 | 0.181M                 | 0.186G   |
+| net.6                   | 0.207M                 | 0.188G   |
+| net.6.0.fn              | 26.288K                | 2.171M   |
+| net.6.1                 | 0.181M                 | 0.186G   |
+| net.7                   | 0.207M                 | 0.188G   |
+| net.7.0.fn              | 26.288K                | 2.171M   |
+| net.7.1                 | 0.181M                 | 0.186G   |
+| net.8                   | 0.207M                 | 0.188G   |
+| net.8.0.fn              | 26.288K                | 2.171M   |
+| net.8.1                 | 0.181M                 | 0.186G   |
+| net.9                   | 0.207M                 | 0.188G   |
+| net.9.0.fn              | 26.288K                | 2.171M   |
+| net.9.1                 | 0.181M                 | 0.186G   |
+| net.10                  | 0.207M                 | 0.188G   |
+| net.10.0.fn             | 26.288K                | 2.171M   |
+| net.10.1                | 0.181M                 | 0.186G   |
+| net.11                  | 0.207M                 | 0.188G   |
+| net.11.0.fn             | 26.288K                | 2.171M   |
+| net.11.1                | 0.181M                 | 0.186G   |
+| net.12                  | 0.207M                 | 0.188G   |
+| net.12.0.fn             | 26.288K                | 2.171M   |
+| net.12.1                | 0.181M                 | 0.186G   |
+| net.13                  | 0.207M                 | 0.188G   |
+| net.13.0.fn             | 26.288K                | 2.171M   |
+| net.13.1                | 0.181M                 | 0.186G   |
+| net.14                  | 0.207M                 | 0.188G   |
+| net.14.0.fn             | 26.288K                | 2.171M   |
+| net.14.1                | 0.181M                 | 0.186G   |
+| net.15                  | 0.207M                 | 0.188G   |
+| net.15.0.fn             | 26.288K                | 2.171M   |
+| net.15.1                | 0.181M                 | 0.186G   |
+| patch_reassemble        | 1.07K                  | 4.342M   |
+| patch_reassemble.weight | (10, 106, 1, 1)        |          |
+| patch_reassemble.bias   | (10,)                  |          |
+--------------------------------------------------------------------------------
+
+2026-11-22 11:10:59,005 - Epoch 1: Lr: 0.0001279 | Train Loss: 0.0514478 | Vali Loss: 0.0314231
+2026-11-22 11:16:51,130 - Epoch 2: Lr: 0.0001377 | Train Loss: 0.0327010 | Vali Loss: 0.0293041
+2026-11-22 11:23:02,963 - Epoch 3: Lr: 0.0001515 | Train Loss: 0.0301394 | Vali Loss: 0.0277675
+2026-11-22 11:28:39,432 - Epoch 4: Lr: 0.0001691 | Train Loss: 0.0284024 | Vali Loss: 0.0269733
+2026-11-22 11:34:29,926 - Epoch 5: Lr: 0.0001905 | Train Loss: 0.0269732 | Vali Loss: 0.0255067
+2026-11-22 11:40:20,849 - Epoch 6: Lr: 0.0002156 | Train Loss: 0.0258828 | Vali Loss: 0.0246168
+2026-11-22 11:45:57,067 - Epoch 7: Lr: 0.0002445 | Train Loss: 0.0248234 | Vali Loss: 0.0238415
+2026-11-22 11:51:29,598 - Epoch 8: Lr: 0.0002770 | Train Loss: 0.0238651 | Vali Loss: 0.0228888
+2026-11-22 11:57:00,095 - Epoch 9: Lr: 0.0003129 | Train Loss: 0.0231528 | Vali Loss: 0.0226500
+2026-11-22 12:02:29,845 - Epoch 10: Lr: 0.0003523 | Train Loss: 0.0225347 | Vali Loss: 0.0219122
+2026-11-22 12:08:06,322 - Epoch 11: Lr: 0.0003950 | Train Loss: 0.0219230 | Vali Loss: 0.0215567
+2026-11-22 12:13:50,900 - Epoch 12: Lr: 0.0004409 | Train Loss: 0.0214016 | Vali Loss: 0.0206756
+2026-11-22 12:19:49,340 - Epoch 13: Lr: 0.0004899 | Train Loss: 0.0209893 | Vali Loss: 0.0202294
+2026-11-22 12:25:41,487 - Epoch 14: Lr: 0.0005418 | Train Loss: 0.0204627 | Vali Loss: 0.0197653
+2026-11-22 12:31:46,228 - Epoch 15: Lr: 0.0005965 | Train Loss: 0.0201097 | Vali Loss: 0.0193586
+2026-11-22 12:37:35,138 - Epoch 16: Lr: 0.0006538 | Train Loss: 0.0196524 | Vali Loss: 0.0192634
+2026-11-22 12:43:15,411 - Epoch 17: Lr: 0.0007136 | Train Loss: 0.0194077 | Vali Loss: 0.0186231
+2026-11-22 12:49:30,716 - Epoch 18: Lr: 0.0007758 | Train Loss: 0.0190765 | Vali Loss: 0.0183457
+2026-11-22 12:55:20,521 - Epoch 19: Lr: 0.0008400 | Train Loss: 0.0187322 | Vali Loss: 0.0183379
+2026-11-22 13:00:57,471 - Epoch 20: Lr: 0.0009063 | Train Loss: 0.0185354 | Vali Loss: 0.0177131
+2026-11-22 13:06:46,141 - Epoch 21: Lr: 0.0009743 | Train Loss: 0.0181292 | Vali Loss: 0.0176743
+2026-11-22 13:12:42,689 - Epoch 22: Lr: 0.0010440 | Train Loss: 0.0178558 | Vali Loss: 0.0175002
+2026-11-22 13:18:20,274 - Epoch 23: Lr: 0.0011151 | Train Loss: 0.0176226 | Vali Loss: 0.0167015
+2026-11-22 13:23:53,958 - Epoch 24: Lr: 0.0011873 | Train Loss: 0.0173486 | Vali Loss: 0.0169903
+2026-11-22 13:30:01,315 - Epoch 25: Lr: 0.0012607 | Train Loss: 0.0169338 | Vali Loss: 0.0164024
+2026-11-22 13:35:34,186 - Epoch 26: Lr: 0.0013348 | Train Loss: 0.0168116 | Vali Loss: 0.0163989
+2026-11-22 13:40:48,809 - Epoch 27: Lr: 0.0014095 | Train Loss: 0.0165148 | Vali Loss: 0.0157412
+2026-11-22 13:46:03,971 - Epoch 28: Lr: 0.0014847 | Train Loss: 0.0161494 | Vali Loss: 0.0158020
+2026-11-22 13:51:09,518 - Epoch 29: Lr: 0.0015601 | Train Loss: 0.0160639 | Vali Loss: 0.0159339
+2026-11-22 13:56:24,694 - Epoch 30: Lr: 0.0016354 | Train Loss: 0.0158552 | Vali Loss: 0.0151579
+2026-11-22 14:01:37,257 - Epoch 31: Lr: 0.0017106 | Train Loss: 0.0155661 | Vali Loss: 0.0149731
+2026-11-22 14:06:56,172 - Epoch 32: Lr: 0.0017853 | Train Loss: 0.0153816 | Vali Loss: 0.0152902
+2026-11-22 14:12:09,278 - Epoch 33: Lr: 0.0018595 | Train Loss: 0.0152228 | Vali Loss: 0.0147519
+2026-11-22 14:17:35,215 - Epoch 34: Lr: 0.0019328 | Train Loss: 0.0150576 | Vali Loss: 0.0143852
+2026-11-22 14:22:56,451 - Epoch 35: Lr: 0.0020051 | Train Loss: 0.0148156 | Vali Loss: 0.0142619
+2026-11-22 14:28:14,837 - Epoch 36: Lr: 0.0020761 | Train Loss: 0.0146470 | Vali Loss: 0.0139736
+2026-11-22 14:33:31,613 - Epoch 37: Lr: 0.0021458 | Train Loss: 0.0145147 | Vali Loss: 0.0139903
+2026-11-22 14:38:47,636 - Epoch 38: Lr: 0.0022138 | Train Loss: 0.0143579 | Vali Loss: 0.0139318
+2026-11-22 14:44:04,933 - Epoch 39: Lr: 0.0022801 | Train Loss: 0.0141155 | Vali Loss: 0.0138600
+2026-11-22 14:49:20,889 - Epoch 40: Lr: 0.0023443 | Train Loss: 0.0140801 | Vali Loss: 0.0137347
+2026-11-22 14:54:37,123 - Epoch 41: Lr: 0.0024065 | Train Loss: 0.0139262 | Vali Loss: 0.0131829
+2026-11-22 14:59:52,083 - Epoch 42: Lr: 0.0024663 | Train Loss: 0.0136850 | Vali Loss: 0.0135534
+2026-11-22 15:05:14,328 - Epoch 43: Lr: 0.0025236 | Train Loss: 0.0135882 | Vali Loss: 0.0130966
+2026-11-22 15:10:38,173 - Epoch 44: Lr: 0.0025783 | Train Loss: 0.0134612 | Vali Loss: 0.0133063
+2026-11-22 15:16:32,205 - Epoch 45: Lr: 0.0026302 | Train Loss: 0.0133717 | Vali Loss: 0.0127805
+2026-11-22 15:22:35,836 - Epoch 46: Lr: 0.0026791 | Train Loss: 0.0132727 | Vali Loss: 0.0130353
+2026-11-22 15:28:33,886 - Epoch 47: Lr: 0.0027250 | Train Loss: 0.0131434 | Vali Loss: 0.0127898
+2026-11-22 15:34:27,865 - Epoch 48: Lr: 0.0027677 | Train Loss: 0.0129215 | Vali Loss: 0.0124521
+2026-11-22 15:40:09,104 - Epoch 49: Lr: 0.0028071 | Train Loss: 0.0129024 | Vali Loss: 0.0127350
+2026-11-22 15:45:37,163 - Epoch 50: Lr: 0.0028431 | Train Loss: 0.0127513 | Vali Loss: 0.0124223
+2026-11-22 15:51:26,006 - Epoch 51: Lr: 0.0028755 | Train Loss: 0.0127191 | Vali Loss: 0.0125522
+2026-11-22 15:56:54,216 - Epoch 52: Lr: 0.0029044 | Train Loss: 0.0126190 | Vali Loss: 0.0123903
+2026-11-22 16:01:56,689 - Epoch 53: Lr: 0.0029296 | Train Loss: 0.0125144 | Vali Loss: 0.0123849
+2026-11-22 16:07:29,397 - Epoch 54: Lr: 0.0029510 | Train Loss: 0.0123564 | Vali Loss: 0.0121247
+2026-11-22 16:12:43,945 - Epoch 55: Lr: 0.0029686 | Train Loss: 0.0122823 | Vali Loss: 0.0117402
+2026-11-22 16:18:09,331 - Epoch 56: Lr: 0.0029823 | Train Loss: 0.0122178 | Vali Loss: 0.0118184
+2026-11-22 16:23:36,549 - Epoch 57: Lr: 0.0029921 | Train Loss: 0.0120442 | Vali Loss: 0.0119273
+2026-11-22 16:31:32,933 - Epoch 58: Lr: 0.0029980 | Train Loss: 0.0120545 | Vali Loss: 0.0116579
+2026-11-22 16:38:36,743 - Epoch 59: Lr: 0.0030000 | Train Loss: 0.0118937 | Vali Loss: 0.0114891
+2026-11-22 16:45:05,992 - Epoch 60: Lr: 0.0029996 | Train Loss: 0.0118559 | Vali Loss: 0.0113984
+2026-11-22 16:50:57,441 - Epoch 61: Lr: 0.0029985 | Train Loss: 0.0117919 | Vali Loss: 0.0113661
+2026-11-22 16:56:41,247 - Epoch 62: Lr: 0.0029966 | Train Loss: 0.0116676 | Vali Loss: 0.0112840
+2026-11-22 17:02:26,445 - Epoch 63: Lr: 0.0029940 | Train Loss: 0.0115525 | Vali Loss: 0.0113582
+2026-11-22 17:08:15,476 - Epoch 64: Lr: 0.0029906 | Train Loss: 0.0116127 | Vali Loss: 0.0110456
+2026-11-22 17:14:01,168 - Epoch 65: Lr: 0.0029864 | Train Loss: 0.0115105 | Vali Loss: 0.0110329
+2026-11-22 17:19:35,120 - Epoch 66: Lr: 0.0029815 | Train Loss: 0.0113489 | Vali Loss: 0.0111398
+2026-11-22 17:25:20,655 - Epoch 67: Lr: 0.0029759 | Train Loss: 0.0112457 | Vali Loss: 0.0109950
+2026-11-22 17:31:00,556 - Epoch 68: Lr: 0.0029695 | Train Loss: 0.0112804 | Vali Loss: 0.0109142
+2026-11-22 17:36:39,664 - Epoch 69: Lr: 0.0029624 | Train Loss: 0.0111176 | Vali Loss: 0.0108781
+2026-11-22 17:42:25,251 - Epoch 70: Lr: 0.0029545 | Train Loss: 0.0110246 | Vali Loss: 0.0109273
+2026-11-22 17:48:17,823 - Epoch 71: Lr: 0.0029459 | Train Loss: 0.0109894 | Vali Loss: 0.0106506
+2026-11-22 17:53:56,574 - Epoch 72: Lr: 0.0029366 | Train Loss: 0.0110490 | Vali Loss: 0.0107039
+2026-11-22 17:59:31,259 - Epoch 73: Lr: 0.0029266 | Train Loss: 0.0108761 | Vali Loss: 0.0105892
+2026-11-22 18:05:07,877 - Epoch 74: Lr: 0.0029158 | Train Loss: 0.0108901 | Vali Loss: 0.0105561
+2026-11-22 18:10:45,566 - Epoch 75: Lr: 0.0029043 | Train Loss: 0.0107668 | Vali Loss: 0.0105241
+2026-11-22 18:16:28,238 - Epoch 76: Lr: 0.0028922 | Train Loss: 0.0107889 | Vali Loss: 0.0103599
+2026-11-22 18:22:11,006 - Epoch 77: Lr: 0.0028793 | Train Loss: 0.0107515 | Vali Loss: 0.0102155
+2026-11-22 18:27:39,640 - Epoch 78: Lr: 0.0028657 | Train Loss: 0.0106139 | Vali Loss: 0.0101965
+2026-11-22 18:33:00,750 - Epoch 79: Lr: 0.0028514 | Train Loss: 0.0105999 | Vali Loss: 0.0102433
+2026-11-22 18:38:54,773 - Epoch 80: Lr: 0.0028365 | Train Loss: 0.0105722 | Vali Loss: 0.0103429
+2026-11-22 18:44:21,387 - Epoch 81: Lr: 0.0028209 | Train Loss: 0.0105031 | Vali Loss: 0.0100235
+2026-11-22 18:49:47,525 - Epoch 82: Lr: 0.0028046 | Train Loss: 0.0104730 | Vali Loss: 0.0099727
+2026-11-22 18:55:17,030 - Epoch 83: Lr: 0.0027876 | Train Loss: 0.0103955 | Vali Loss: 0.0101223
+2026-11-22 19:00:47,972 - Epoch 84: Lr: 0.0027701 | Train Loss: 0.0103315 | Vali Loss: 0.0100203
+2026-11-22 19:06:19,882 - Epoch 85: Lr: 0.0027518 | Train Loss: 0.0103716 | Vali Loss: 0.0098590
+2026-11-22 19:11:53,734 - Epoch 86: Lr: 0.0027330 | Train Loss: 0.0102488 | Vali Loss: 0.0100045
+2026-11-22 19:17:16,668 - Epoch 87: Lr: 0.0027135 | Train Loss: 0.0102684 | Vali Loss: 0.0098308
+2026-11-22 19:22:48,060 - Epoch 88: Lr: 0.0026934 | Train Loss: 0.0101311 | Vali Loss: 0.0098157
+2026-11-22 19:28:34,065 - Epoch 89: Lr: 0.0026727 | Train Loss: 0.0099864 | Vali Loss: 0.0098630
+2026-11-22 19:34:17,713 - Epoch 90: Lr: 0.0026514 | Train Loss: 0.0100038 | Vali Loss: 0.0097563
+2026-11-22 19:40:10,373 - Epoch 91: Lr: 0.0026296 | Train Loss: 0.0101170 | Vali Loss: 0.0096715
+2026-11-22 19:45:59,336 - Epoch 92: Lr: 0.0026071 | Train Loss: 0.0100448 | Vali Loss: 0.0098041
+2026-11-22 19:51:45,950 - Epoch 93: Lr: 0.0025842 | Train Loss: 0.0099632 | Vali Loss: 0.0096138
+2026-11-22 19:57:35,132 - Epoch 94: Lr: 0.0025606 | Train Loss: 0.0099835 | Vali Loss: 0.0095601
+2026-11-22 20:03:38,056 - Epoch 95: Lr: 0.0025366 | Train Loss: 0.0099051 | Vali Loss: 0.0095952
+2026-11-22 20:09:23,592 - Epoch 96: Lr: 0.0025120 | Train Loss: 0.0097518 | Vali Loss: 0.0095618
+2026-11-22 20:14:58,304 - Epoch 97: Lr: 0.0024869 | Train Loss: 0.0098268 | Vali Loss: 0.0094626
+2026-11-22 20:20:27,067 - Epoch 98: Lr: 0.0024613 | Train Loss: 0.0097632 | Vali Loss: 0.0096034
+2026-11-22 20:26:11,549 - Epoch 99: Lr: 0.0024352 | Train Loss: 0.0096847 | Vali Loss: 0.0094316
+2026-11-22 20:31:43,312 - Epoch 100: Lr: 0.0024086 | Train Loss: 0.0096895 | Vali Loss: 0.0094586
+2026-11-22 20:37:18,174 - Epoch 101: Lr: 0.0023816 | Train Loss: 0.0096169 | Vali Loss: 0.0092459
+2026-11-22 20:43:03,263 - Epoch 102: Lr: 0.0023542 | Train Loss: 0.0095966 | Vali Loss: 0.0094135
+2026-11-22 20:48:45,041 - Epoch 103: Lr: 0.0023263 | Train Loss: 0.0095714 | Vali Loss: 0.0092861
+2026-11-22 20:54:29,025 - Epoch 104: Lr: 0.0022980 | Train Loss: 0.0096246 | Vali Loss: 0.0092446
+2026-11-22 21:00:16,200 - Epoch 105: Lr: 0.0022693 | Train Loss: 0.0094734 | Vali Loss: 0.0092717
+2026-11-22 21:05:59,015 - Epoch 106: Lr: 0.0022402 | Train Loss: 0.0094748 | Vali Loss: 0.0091326
+2026-11-22 21:11:47,095 - Epoch 107: Lr: 0.0022108 | Train Loss: 0.0094369 | Vali Loss: 0.0091295
+2026-11-22 21:17:41,397 - Epoch 108: Lr: 0.0021809 | Train Loss: 0.0093437 | Vali Loss: 0.0091222
+2026-11-22 21:23:16,813 - Epoch 109: Lr: 0.0021508 | Train Loss: 0.0093820 | Vali Loss: 0.0090999
+2026-11-22 21:29:06,684 - Epoch 110: Lr: 0.0021203 | Train Loss: 0.0093578 | Vali Loss: 0.0089723
+2026-11-22 21:34:38,596 - Epoch 111: Lr: 0.0020895 | Train Loss: 0.0092943 | Vali Loss: 0.0089650
+2026-11-22 21:40:02,728 - Epoch 112: Lr: 0.0020584 | Train Loss: 0.0092782 | Vali Loss: 0.0090794
+2026-11-22 21:45:28,325 - Epoch 113: Lr: 0.0020270 | Train Loss: 0.0093123 | Vali Loss: 0.0089173
+2026-11-22 21:51:02,313 - Epoch 114: Lr: 0.0019954 | Train Loss: 0.0092813 | Vali Loss: 0.0089287
+2026-11-22 21:56:25,433 - Epoch 115: Lr: 0.0019635 | Train Loss: 0.0091867 | Vali Loss: 0.0088195
+2026-11-22 22:02:02,974 - Epoch 116: Lr: 0.0019314 | Train Loss: 0.0090899 | Vali Loss: 0.0089136
+2026-11-22 22:07:26,777 - Epoch 117: Lr: 0.0018990 | Train Loss: 0.0091221 | Vali Loss: 0.0088450
+2026-11-22 22:13:12,083 - Epoch 118: Lr: 0.0018665 | Train Loss: 0.0090999 | Vali Loss: 0.0087617
+2026-11-22 22:18:58,140 - Epoch 119: Lr: 0.0018337 | Train Loss: 0.0090843 | Vali Loss: 0.0087721
+2026-11-22 22:24:53,799 - Epoch 120: Lr: 0.0018008 | Train Loss: 0.0090229 | Vali Loss: 0.0087433
+2026-11-22 22:31:00,522 - Epoch 121: Lr: 0.0017678 | Train Loss: 0.0090153 | Vali Loss: 0.0087157
+2026-11-22 22:36:56,661 - Epoch 122: Lr: 0.0017346 | Train Loss: 0.0089592 | Vali Loss: 0.0086940
+2026-11-22 22:42:34,687 - Epoch 123: Lr: 0.0017013 | Train Loss: 0.0089236 | Vali Loss: 0.0086578
+2026-11-22 22:47:59,135 - Epoch 124: Lr: 0.0016679 | Train Loss: 0.0089120 | Vali Loss: 0.0086512
+2026-11-22 22:53:57,372 - Epoch 125: Lr: 0.0016344 | Train Loss: 0.0088159 | Vali Loss: 0.0085850
+2026-11-22 22:59:34,784 - Epoch 126: Lr: 0.0016009 | Train Loss: 0.0088071 | Vali Loss: 0.0086344
+2026-11-22 23:05:16,335 - Epoch 127: Lr: 0.0015672 | Train Loss: 0.0088410 | Vali Loss: 0.0085140
+2026-11-22 23:10:45,652 - Epoch 128: Lr: 0.0015336 | Train Loss: 0.0088584 | Vali Loss: 0.0084879
+2026-11-22 23:16:32,095 - Epoch 129: Lr: 0.0015000 | Train Loss: 0.0087103 | Vali Loss: 0.0083892
+2026-11-22 23:22:08,752 - Epoch 130: Lr: 0.0014663 | Train Loss: 0.0086472 | Vali Loss: 0.0083813
+2026-11-22 23:27:45,009 - Epoch 131: Lr: 0.0014327 | Train Loss: 0.0087419 | Vali Loss: 0.0084137
+2026-11-22 23:33:13,387 - Epoch 132: Lr: 0.0013990 | Train Loss: 0.0087117 | Vali Loss: 0.0083551
+2026-11-22 23:38:41,344 - Epoch 133: Lr: 0.0013655 | Train Loss: 0.0086959 | Vali Loss: 0.0083784
+2026-11-22 23:44:09,813 - Epoch 134: Lr: 0.0013320 | Train Loss: 0.0085615 | Vali Loss: 0.0083676
+2026-11-22 23:49:38,050 - Epoch 135: Lr: 0.0012986 | Train Loss: 0.0085970 | Vali Loss: 0.0084160
+2026-11-22 23:55:13,267 - Epoch 136: Lr: 0.0012653 | Train Loss: 0.0085608 | Vali Loss: 0.0082287
+2026-11-23 00:00:35,002 - Epoch 137: Lr: 0.0012321 | Train Loss: 0.0084612 | Vali Loss: 0.0082327
+2026-11-23 00:05:59,669 - Epoch 138: Lr: 0.0011991 | Train Loss: 0.0084804 | Vali Loss: 0.0082323
+2026-11-23 00:11:21,791 - Epoch 139: Lr: 0.0011662 | Train Loss: 0.0084746 | Vali Loss: 0.0081737
+2026-11-23 00:16:47,486 - Epoch 140: Lr: 0.0011334 | Train Loss: 0.0084362 | Vali Loss: 0.0081383
+2026-11-23 00:22:19,793 - Epoch 141: Lr: 0.0011009 | Train Loss: 0.0084174 | Vali Loss: 0.0081618
+2026-11-23 00:27:59,228 - Epoch 142: Lr: 0.0010686 | Train Loss: 0.0083844 | Vali Loss: 0.0080937
+2026-11-23 00:33:33,544 - Epoch 143: Lr: 0.0010364 | Train Loss: 0.0083525 | Vali Loss: 0.0080853
+2026-11-23 00:39:16,652 - Epoch 144: Lr: 0.0010045 | Train Loss: 0.0083669 | Vali Loss: 0.0081118
+2026-11-23 00:45:07,077 - Epoch 145: Lr: 0.0009729 | Train Loss: 0.0083915 | Vali Loss: 0.0080655
+2026-11-23 00:50:53,767 - Epoch 146: Lr: 0.0009415 | Train Loss: 0.0083133 | Vali Loss: 0.0081198
+2026-11-23 00:57:03,417 - Epoch 147: Lr: 0.0009104 | Train Loss: 0.0082398 | Vali Loss: 0.0080459
+2026-11-23 01:02:52,077 - Epoch 148: Lr: 0.0008796 | Train Loss: 0.0082637 | Vali Loss: 0.0080004
+2026-11-23 01:08:53,996 - Epoch 149: Lr: 0.0008491 | Train Loss: 0.0081562 | Vali Loss: 0.0080103
+2026-11-23 01:14:33,849 - Epoch 150: Lr: 0.0008190 | Train Loss: 0.0081976 | Vali Loss: 0.0079309
+2026-11-23 01:19:40,299 - Epoch 151: Lr: 0.0007892 | Train Loss: 0.0081991 | Vali Loss: 0.0078563
+2026-11-23 01:25:03,008 - Epoch 152: Lr: 0.0007597 | Train Loss: 0.0081112 | Vali Loss: 0.0078937
+2026-11-23 01:30:39,057 - Epoch 153: Lr: 0.0007306 | Train Loss: 0.0081574 | Vali Loss: 0.0078519
+2026-11-23 01:36:20,584 - Epoch 154: Lr: 0.0007019 | Train Loss: 0.0081339 | Vali Loss: 0.0078501
+2026-11-23 01:42:12,944 - Epoch 155: Lr: 0.0006736 | Train Loss: 0.0081183 | Vali Loss: 0.0078366
+2026-11-23 01:47:37,810 - Epoch 156: Lr: 0.0006457 | Train Loss: 0.0081172 | Vali Loss: 0.0077943
+2026-11-23 01:52:44,849 - Epoch 157: Lr: 0.0006183 | Train Loss: 0.0080970 | Vali Loss: 0.0077800
+2026-11-23 01:57:51,955 - Epoch 158: Lr: 0.0005913 | Train Loss: 0.0080263 | Vali Loss: 0.0077671
+2026-11-23 02:02:24,269 - Epoch 159: Lr: 0.0005647 | Train Loss: 0.0080152 | Vali Loss: 0.0077492
+2026-11-23 02:06:42,860 - Epoch 160: Lr: 0.0005387 | Train Loss: 0.0080673 | Vali Loss: 0.0077568
+2026-11-23 02:11:03,221 - Epoch 161: Lr: 0.0005131 | Train Loss: 0.0080171 | Vali Loss: 0.0077583
+2026-11-23 02:15:22,173 - Epoch 162: Lr: 0.0004880 | Train Loss: 0.0078880 | Vali Loss: 0.0077358
+2026-11-23 02:19:36,011 - Epoch 163: Lr: 0.0004634 | Train Loss: 0.0078861 | Vali Loss: 0.0076820
+2026-11-23 02:23:55,812 - Epoch 164: Lr: 0.0004393 | Train Loss: 0.0079263 | Vali Loss: 0.0076586
+2026-11-23 02:28:13,086 - Epoch 165: Lr: 0.0004158 | Train Loss: 0.0079460 | Vali Loss: 0.0076665
+2026-11-23 02:32:26,104 - Epoch 166: Lr: 0.0003928 | Train Loss: 0.0078785 | Vali Loss: 0.0076430
+2026-11-23 02:36:41,823 - Epoch 167: Lr: 0.0003704 | Train Loss: 0.0078599 | Vali Loss: 0.0076524
+2026-11-23 02:40:58,743 - Epoch 168: Lr: 0.0003485 | Train Loss: 0.0078665 | Vali Loss: 0.0076086
+2026-11-23 02:45:17,398 - Epoch 169: Lr: 0.0003272 | Train Loss: 0.0078378 | Vali Loss: 0.0075952
+2026-11-23 02:49:26,887 - Epoch 170: Lr: 0.0003065 | Train Loss: 0.0077697 | Vali Loss: 0.0075771
+2026-11-23 02:53:39,165 - Epoch 171: Lr: 0.0002865 | Train Loss: 0.0078171 | Vali Loss: 0.0075914
+2026-11-23 02:57:49,279 - Epoch 172: Lr: 0.0002670 | Train Loss: 0.0078302 | Vali Loss: 0.0075682
+2026-11-23 03:02:04,084 - Epoch 173: Lr: 0.0002481 | Train Loss: 0.0078553 | Vali Loss: 0.0075474
+2026-11-23 03:06:19,102 - Epoch 174: Lr: 0.0002299 | Train Loss: 0.0077880 | Vali Loss: 0.0075393
+2026-11-23 03:10:31,647 - Epoch 175: Lr: 0.0002123 | Train Loss: 0.0077208 | Vali Loss: 0.0075384
+2026-11-23 03:14:44,041 - Epoch 176: Lr: 0.0001954 | Train Loss: 0.0077317 | Vali Loss: 0.0075171
+2026-11-23 03:19:00,482 - Epoch 177: Lr: 0.0001791 | Train Loss: 0.0077346 | Vali Loss: 0.0075128
+2026-11-23 03:23:11,330 - Epoch 178: Lr: 0.0001635 | Train Loss: 0.0077339 | Vali Loss: 0.0074994
+2026-11-23 03:27:25,203 - Epoch 179: Lr: 0.0001485 | Train Loss: 0.0076769 | Vali Loss: 0.0074937
+2026-11-23 03:31:37,114 - Epoch 180: Lr: 0.0001343 | Train Loss: 0.0076499 | Vali Loss: 0.0074999
+2026-11-23 03:35:49,951 - Epoch 181: Lr: 0.0001207 | Train Loss: 0.0077031 | Vali Loss: 0.0074817
+2026-11-23 03:40:03,509 - Epoch 182: Lr: 0.0001078 | Train Loss: 0.0077064 | Vali Loss: 0.0074791
+2026-11-23 03:44:15,776 - Epoch 183: Lr: 0.0000956 | Train Loss: 0.0076387 | Vali Loss: 0.0074739
+2026-11-23 03:48:24,478 - Epoch 184: Lr: 0.0000842 | Train Loss: 0.0076876 | Vali Loss: 0.0074535
+2026-11-23 03:52:38,369 - Epoch 185: Lr: 0.0000734 | Train Loss: 0.0076521 | Vali Loss: 0.0074593
+2026-11-23 03:56:43,237 - Epoch 186: Lr: 0.0000634 | Train Loss: 0.0076363 | Vali Loss: 0.0074515
+2026-11-23 04:00:46,643 - Epoch 187: Lr: 0.0000541 | Train Loss: 0.0076657 | Vali Loss: 0.0074504
+2026-11-23 04:04:57,282 - Epoch 188: Lr: 0.0000455 | Train Loss: 0.0076286 | Vali Loss: 0.0074364
+2026-11-23 04:09:09,977 - Epoch 189: Lr: 0.0000376 | Train Loss: 0.0077014 | Vali Loss: 0.0074293
+2026-11-23 04:13:23,550 - Epoch 190: Lr: 0.0000305 | Train Loss: 0.0076053 | Vali Loss: 0.0074344
+2026-11-23 04:17:36,109 - Epoch 191: Lr: 0.0000241 | Train Loss: 0.0075565 | Vali Loss: 0.0074536
+2026-11-23 04:21:42,348 - Epoch 192: Lr: 0.0000185 | Train Loss: 0.0077076 | Vali Loss: 0.0074224
+2026-11-23 04:25:56,641 - Epoch 193: Lr: 0.0000136 | Train Loss: 0.0076236 | Vali Loss: 0.0074237
+2026-11-23 04:30:03,043 - Epoch 194: Lr: 0.0000094 | Train Loss: 0.0076316 | Vali Loss: 0.0074279
+2026-11-23 04:34:11,806 - Epoch 195: Lr: 0.0000060 | Train Loss: 0.0076573 | Vali Loss: 0.0074238
+2026-11-23 04:38:19,931 - Epoch 196: Lr: 0.0000034 | Train Loss: 0.0076666 | Vali Loss: 0.0074284
+2026-11-23 04:42:29,885 - Epoch 197: Lr: 0.0000015 | Train Loss: 0.0076232 | Vali Loss: 0.0074223
+2026-11-23 04:46:43,196 - Epoch 198: Lr: 0.0000004 | Train Loss: 0.0075568 | Vali Loss: 0.0074316
+2026-11-23 04:50:48,077 - Epoch 199: Lr: 0.0000000 | Train Loss: 0.0076370 | Vali Loss: 0.0074208
+2026-11-23 04:52:59,651 - mse:30.39183807373047, mae:87.00090789794922, ssim:0.9155740856480599, psnr:22.180647141869674
