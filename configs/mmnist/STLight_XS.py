@@ -1,6 +1,8 @@
 method = 'STLight'
-# model (STLight-XS: ~1.1M params, ~1.0G FLOPs as in Table 3)
-dim = 224
+# Table 3 STLight-XS on Moving MNIST: 11.1M params, 10.6G FLOPs.
+# dim=800, depth=16 gives 11.11M parameters. Not yet trained.
+# The completed 4060 run used configs/mmnist/STLight_XS_reduced.py (dim 224).
+dim = 800
 depth = 16
 patch_size = 2
 overlapping = 0

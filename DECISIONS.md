@@ -43,20 +43,29 @@ our numbers are directly comparable to Table 3.
   Apple Silicon and laptops; `'stlight'` added to the FLOPs-measurement branch.
 Nothing else was modified.
 
-## 3. Model variant sizes were reverse-engineered from the paper's tables
+## 3. Model variant sizes — first derivation was a misread, then corrected
 
-**Decision:** STLight-XS = dim 224, depth 16; STLight-S = dim 424, depth 16.
+**What was trained:** STLight reduced-XS = dim 224, depth 16 (1.05M / 0.87G);
+reduced-S = dim 424, depth 16 (3.34M / 3.04G). Those are the 4060 checkpoints.
 
-**Why:** the paper reports results per variant (Table 3: XS 1.1M params / 1.0G FLOPs,
-S 3.3M) but never publishes the per-variant configurations. What it does publish:
-- Appendix B's parameter-count formula: repeated STLMixer cost ≈ `O(d·(d_ℓ·(a²+d+k₁²/3+k₂²/9)))`
-- Table 8's anchor configuration for STLight-L: `dim=1400, depth=16` → our formula gives
-  32.8M params, matching Table 3's 32.8M exactly, which validates the derivation.
-- Solving for XS/S targets with K₁=3, K₂=7, patch=2 yields dim 224 (→ 1.05M params,
-  ≈1.0G FLOPs measured) and dim 424 (→ 3.34M params).
+**Why those widths:** Table 3 was read as XS 1.1M / 1.0G and S 3.3M. The printed
+MMNIST cells are **11.1M / 10.6G** and **17.1M / 16.5G** (confirmed on the rendered
+WACV page and the arXiv text layer). The leading 1 of 11.1M was dropped.
 
-**Measured vs paper:** XS 1.05M vs 1.1M (−4%); S 3.34M vs 3.3M (+1%). Reported honestly
-in the results table.
+**Correct widths, same formula.** Table 8's STLight-L anchor `dim=1400, depth=16`
+gives 32.88M, matching Table 3's 32.9M. With K₁=3, K₂=7, patch=2, depth=16:
+
+| Variant | dim | Params | Paper |
+|---|---|---|---|
+| XS | 800 | 11.11M | 11.1M / 10.6G |
+| S | 1000 | 17.09M | 17.1M / 16.5G |
+| M | 1200 | 24.34M | 24.3M / 23.7G |
+| L | 1400 | 32.88M | 32.9M / 32.3G |
+
+These are in `configs/mmnist/STLight_XS.py` and `STLight_S.py`. The trained widths
+are kept as `STLight_XS_reduced.py` and `STLight_S_reduced.py`. The Table 3 widths
+have not been trained. FLOPs measured on the reduced models, scaled by `(dim_paper/dim_trained)²`,
+land within a few percent of 10.6G and 16.5G, which checks the block rather than the width.
 
 ## 4. Training recipe copied verbatim from the paper (Table 2)
 
@@ -88,19 +97,29 @@ code running with *at least part* of the results replicated.
 | | Status |
 |---|---|
 | Official architecture (App. G Fig. 10) | ✅ verbatim |
-| Param/FLOPs counts vs Table 3 | ✅ XS 1.05M/≈1.0G (paper 1.1M/1.0G), S 3.34M (3.3M) |
+| Param/FLOPs counts vs Table 3 | ❌ trained 1.05M/0.87G and 3.34M/3.04G. Table 3 is 11.1M/10.6G and 17.1M/16.5G. Correct dims (800, 1000) checked, not trained |
 | Training recipe (Table 2) | ✅ verbatim |
-| MMNIST 200-epoch training + test | ✅ run (results table in README) |
-| Qualitative predictions (Fig. 3 style) | ✅ via `tools/demo_gifs.py` / `tools/demo_predict.py` |
+| MMNIST 200-epoch training + test | ✅ reduced widths only (README table). Table 3 widths not trained |
+| Qualitative predictions (Fig. 3 style) | ✅ filmstrips from `best.ckpt` via `tools/demo_predict.py` |
 | TaxiBJ / KTH / KITTI results | ❌ out of scope (time budget) |
 | Long-sequence (20-frame) prediction | ❌ out of scope |
 
-## 8. Known variance sources (if our MSE differs from 24.48)
+## 8. Why our MSE is 40.0 / 30.4 rather than 24.48 / 23.29
 
-- Per-variant configs are our derivation (Sec. 3), not the authors'.
-- GPU/framework/library version differences (PyTorch, Lightning) vs the paper's
-  RTX A6000 setup; nondeterministic init and data shuffling.
-- The paper itself trains each variant with tuned hidden dims per dataset (Sec. 4.5),
-  and its own appendix (Table 8) shows MSE moving by ~5 points across plausible
-  hyperparameter ranges — so a few points of deviation on MMNIST is within the
-  reproduction noise band for this class of model.
+The gap is the width error in Sec. 3, not a failed training run. The reduced XS
+model has about one tenth of Table 3 XS's parameters (1.05M vs 11.1M) and the
+reduced S model about one fifth (3.34M vs 17.1M). Both still train: S is stable
+for all 200 epochs; XS has nine validation spikes above 0.05 while the OneCycle
+learning rate is high, then finishes at val loss 0.0098. The test numbers below
+are the last-epoch OpenSTL test. `best.ckpt` is the lowest validation checkpoint
+(epoch 189 for XS, epoch 199 for S).
+
+| | MSE | MAE | SSIM | PSNR |
+|---|---|---|---|---|
+| Reduced XS, last epoch | 39.999 | 102.287 | 0.8924 | 21.005 |
+| Reduced S, last epoch | 30.392 | 87.001 | 0.9156 | 22.181 |
+| Paper XS / S | 24.48 / 23.29 | 71.21 / 68.33 | 0.9444 / 0.9454 | — |
+
+Smaller leftover differences, once the width is corrected: GPU and library versions
+versus the paper's RTX A6000, and Table 8's own finding that MSE moves by several
+points across nearby learning rates.

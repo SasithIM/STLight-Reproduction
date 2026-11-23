@@ -1,5 +1,5 @@
 method = 'STLight'
-# model (STLight-XS)
+# 1-epoch smoke of the reduced-width model (dim 224), not Table 3 XS.
 dim = 224
 depth = 16
 patch_size = 2

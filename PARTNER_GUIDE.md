@@ -1,5 +1,10 @@
 # Partner Run Guide — RTX 4070 Laptop
 
+**Status (after the 4060 runs):** both 200-epoch jobs finished and are in `results/`.
+The widths in this guide (dim 224 and 424) are **not** Table 3. The paper's XS/S
+cells are 11.1M and 17.1M parameters; see `DECISIONS.md` §3 and the README results
+table before quoting 1.05M / 3.34M as the paper's models.
+
 **Your job in one sentence:** get the two 200-epoch training runs done on your 4070 and
 record the artifacts listed in §6 — everything else is already prepared.
 
