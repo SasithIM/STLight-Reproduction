@@ -1,6 +1,6 @@
 # STLight — Course Reproduction (WACV 2025)
 
-Course project reproducing **"STLight: a Fully Convolutional Approach for Efficient
+Course poject reproducing **"STLight: a Fully Convolutional Approach for Efficient
 Predictive Learning by Spatio-Temporal joint Processing"** (Alfarano et al., WACV 2025,
 [arXiv:2411.10198](https://arxiv.org/abs/2411.10198)).
 
