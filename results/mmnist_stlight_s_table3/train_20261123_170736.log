@@ -1,0 +1,192 @@
+2026-11-23 17:07:36,472 - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
+CUDA available: True
+CUDA_HOME: /usr/local/cuda
+NVCC: Build cuda_13.0.r13.0/compiler.36424714_0
+GPU 0: NVIDIA GeForce RTX 4090
+GCC: gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+PyTorch: 2.15.0+cu132
+PyTorch compiling details: PyTorch built with:
+  - GCC 13.3
+  - C++ Version: 202002
+  - Intel(R) oneAPI Math Kernel Library Version 2024.2-Product Build 20240605 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v3.13.3 (Git Hash b38f97eb6f2173513112f15a0481750b8a66e901)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 13.2
+  - NVCC architecture flags: -gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_90,code=sm_90;-gencode;arch=compute_100,code=sm_100;-gencode;arch=compute_120,code=sm_120
+  - CuDNN 92.6  (built against CUDA 13.4)
+  - Magma 2.6.1
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, COMMIT_SHA=d0f2af8b66b20da4baa50644c0cd3f887a2eae2e, CUDA_FLAGS= -DLIBCUDACXX_ENABLE_SIMPLIFIED_COMPLEX_OPERATIONS -Xfatbin -compress-all -DONNX_NAMESPACE=onnx_torch -gencode arch=compute_75,code=sm_75 -gencode arch=compute_80,code=sm_80 -gencode arch=compute_86,code=sm_86 -gencode arch=compute_90,code=sm_90 -gencode arch=compute_100,code=sm_100 -gencode arch=compute_120,code=sm_120 -Xcudafe --diag_suppress=cc_clobber_ignored,--diag_suppress=field_without_dll_interface,--diag_suppress=base_class_has_different_dll_interface,--diag_suppress=dll_interface_conflict_none_assumed,--diag_suppress=dll_interface_conflict_dllexport_assumed,--diag_suppress=bad_friend_decl --expt-relaxed-constexpr --expt-extended-lambda -Xfatbin -compress-all --threads 2 -compress-mode=size -Wno-deprecated-gpu-targets --expt-extended-lambda -DCUB_WRAPPED_NAMESPACE=at_cuda_detail -DDISABLE_CUSPARSE_DEPRECATED -DCUDA_HAS_FP16=1 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -DC10_NODEPRECATED, CUDA_VERSION=13.2, CUDNN_VERSION=9.26.0, CXX_COMPILER=/opt/rh/gcc-toolset-13/root/usr/bin/c++, CXX_FLAGS= -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -DNDEBUG -DUSE_KINETO -DHAS_CUPTI -DUSE_FBGEMM -DUSE_MSLK -DUSE_PYTORCH_QNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -O2 -fPIC -DC10_NODEPRECATED -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Werror=range-loop-construct -Werror=bool-operation -Wnarrowing -Wno-missing-field-initializers -Wno-unknown-pragmas -Wno-unused-parameter -Wno-strict-overflow -Wno-strict-aliasing -Wno-stringop-overflow -Wsuggest-override -Wno-psabi -Wno-error=old-style-cast -faligned-new -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-dangling-reference -Wno-error=dangling-reference -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, TORCH_VERSION=2.15.0, USE_CUDA=1, USE_CUDNN=ON, USE_CUSPARSELT=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_GLOO=ON, USE_HIPSPARSELT=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, USE_ROCM_KERNEL_ASSERT=OFF, USE_XCCL=OFF, USE_XPU=OFF, 
+
+TorchVision: 0.29.2+cu132
+OpenCV: 4.11.0
+openstl: 1.0.0
+------------------------------------------------------------
+
+2026-11-23 17:07:36,473 - 
+device: 	cuda	
+dist: 	False	
+res_dir: 	work_dirs	
+ex_name: 	mmnist_stlight_s	
+fp16: 	False	
+torchscript: 	False	
+seed: 	42	
+fps: 	False	
+test: 	False	
+deterministic: 	False	
+batch_size: 	16	
+val_batch_size: 	64	
+num_workers: 	4	
+data_root: 	./data	
+dataname: 	mmnist	
+pre_seq_length: 	10	
+aft_seq_length: 	10	
+total_length: 	20	
+use_augment: 	False	
+use_prefetcher: 	False	
+drop_last: 	False	
+method: 	stlight	
+config_file: 	configs/mmnist/STLight_S.py	
+model_type: 	gSTA	
+drop: 	0.0	
+drop_path: 	0.0	
+overwrite: 	False	
+epoch: 	200	
+log_step: 	1	
+opt: 	adam	
+opt_eps: 	None	
+opt_betas: 	None	
+momentum: 	0.9	
+weight_decay: 	0.0	
+clip_grad: 	None	
+clip_mode: 	norm	
+no_display_method_info: 	False	
+sched: 	onecycle	
+lr: 	0.003	
+lr_k_decay: 	1.0	
+warmup_lr: 	1e-05	
+min_lr: 	1e-06	
+final_div_factor: 	10000.0	
+warmup_epoch: 	0	
+decay_epoch: 	100	
+decay_rate: 	0.1	
+filter_bias_and_bn: 	False	
+gpus: 	[0]	
+metric_for_bestckpt: 	val_loss	
+ckpt_path: 	None	
+dim: 	1000	
+depth: 	16	
+patch_size: 	2	
+overlapping: 	0	
+K_1: 	3	
+K_2: 	7	
+in_shape: 	[10, 1, 64, 64]	
+data_name: 	mnist	
+metrics: 	['mse', 'mae', 'ssim', 'psnr']	
+2026-11-23 17:07:36,473 - Model info:
+STLight_Model(
+  (patch_encoder): Sequential(
+    (0): Conv2d(10, 1000, kernel_size=(2, 2), stride=(2, 2))
+    (1): BatchNorm2d(1000, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+    (2): GELU(approximate='none')
+  )
+  (net): ModuleList(
+    (0-15): 16 x Sequential(
+      (0): Residual(
+        (fn): Sequential(
+          (0): Conv2d(1000, 1000, kernel_size=(3, 3), stride=(1, 1), padding=same, groups=1000)
+          (1): Conv2d(1000, 1000, kernel_size=(7, 7), stride=(1, 1), padding=same, dilation=(3, 3), groups=1000)
+          (2): GELU(approximate='none')
+          (3): BatchNorm2d(1000, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+        )
+      )
+      (1): Sequential(
+        (0): Conv2d(1000, 1000, kernel_size=(1, 1), stride=(1, 1))
+        (1): GELU(approximate='none')
+        (2): BatchNorm2d(1000, eps=1e-05, momentum=0.1, affine=True, bias=True, track_running_stats=True)
+      )
+    )
+  )
+  (patch_reassemble): Conv2d(250, 10, kernel_size=(1, 1), stride=(1, 1))
+  (up): PixelShuffle(upscale_factor=2)
+)
+| module                  | #parameters or shape   | #flops   |
+|:------------------------|:-----------------------|:---------|
+| model                   | 17.086M                | 16.604G  |
+| patch_encoder           | 43K                    | 46.08M   |
+| patch_encoder.0         | 41K                    | 40.96M   |
+| patch_encoder.0.weight  | (1000, 10, 2, 2)       |          |
+| patch_encoder.0.bias    | (1000,)                |          |
+| patch_encoder.1         | 2K                     | 5.12M    |
+| patch_encoder.1.weight  | (1000,)                |          |
+| patch_encoder.1.bias    | (1000,)                |          |
+| net                     | 17.04M                 | 16.548G  |
+| net.0                   | 1.065M                 | 1.034G   |
+| net.0.0.fn              | 62K                    | 5.12M    |
+| net.0.1                 | 1.003M                 | 1.029G   |
+| net.1                   | 1.065M                 | 1.034G   |
+| net.1.0.fn              | 62K                    | 5.12M    |
+| net.1.1                 | 1.003M                 | 1.029G   |
+| net.2                   | 1.065M                 | 1.034G   |
+| net.2.0.fn              | 62K                    | 5.12M    |
+| net.2.1                 | 1.003M                 | 1.029G   |
+| net.3                   | 1.065M                 | 1.034G   |
+| net.3.0.fn              | 62K                    | 5.12M    |
+| net.3.1                 | 1.003M                 | 1.029G   |
+| net.4                   | 1.065M                 | 1.034G   |
+| net.4.0.fn              | 62K                    | 5.12M    |
+| net.4.1                 | 1.003M                 | 1.029G   |
+| net.5                   | 1.065M                 | 1.034G   |
+| net.5.0.fn              | 62K                    | 5.12M    |
+| net.5.1                 | 1.003M                 | 1.029G   |
+| net.6                   | 1.065M                 | 1.034G   |
+| net.6.0.fn              | 62K                    | 5.12M    |
+| net.6.1                 | 1.003M                 | 1.029G   |
+| net.7                   | 1.065M                 | 1.034G   |
+| net.7.0.fn              | 62K                    | 5.12M    |
+| net.7.1                 | 1.003M                 | 1.029G   |
+| net.8                   | 1.065M                 | 1.034G   |
+| net.8.0.fn              | 62K                    | 5.12M    |
+| net.8.1                 | 1.003M                 | 1.029G   |
+| net.9                   | 1.065M                 | 1.034G   |
+| net.9.0.fn              | 62K                    | 5.12M    |
+| net.9.1                 | 1.003M                 | 1.029G   |
+| net.10                  | 1.065M                 | 1.034G   |
+| net.10.0.fn             | 62K                    | 5.12M    |
+| net.10.1                | 1.003M                 | 1.029G   |
+| net.11                  | 1.065M                 | 1.034G   |
+| net.11.0.fn             | 62K                    | 5.12M    |
+| net.11.1                | 1.003M                 | 1.029G   |
+| net.12                  | 1.065M                 | 1.034G   |
+| net.12.0.fn             | 62K                    | 5.12M    |
+| net.12.1                | 1.003M                 | 1.029G   |
+| net.13                  | 1.065M                 | 1.034G   |
+| net.13.0.fn             | 62K                    | 5.12M    |
+| net.13.1                | 1.003M                 | 1.029G   |
+| net.14                  | 1.065M                 | 1.034G   |
+| net.14.0.fn             | 62K                    | 5.12M    |
+| net.14.1                | 1.003M                 | 1.029G   |
+| net.15                  | 1.065M                 | 1.034G   |
+| net.15.0.fn             | 62K                    | 5.12M    |
+| net.15.1                | 1.003M                 | 1.029G   |
+| patch_reassemble        | 2.51K                  | 10.24M   |
+| patch_reassemble.weight | (10, 250, 1, 1)        |          |
+| patch_reassemble.bias   | (10,)                  |          |
+--------------------------------------------------------------------------------
+
+2026-11-23 17:10:31,561 - Epoch 1: Lr: 0.0001279 | Train Loss: 0.0437464 | Vali Loss: 0.0293253
+2026-11-23 17:11:58,970 - Epoch 2: Lr: 0.0001377 | Train Loss: 0.0298929 | Vali Loss: 0.0271212
+2026-11-23 17:13:26,602 - Epoch 3: Lr: 0.0001515 | Train Loss: 0.0273296 | Vali Loss: 0.0252925
+2026-11-23 17:14:54,135 - Epoch 4: Lr: 0.0001691 | Train Loss: 0.0257113 | Vali Loss: 0.0234492
+2026-11-23 17:16:21,627 - Epoch 5: Lr: 0.0001905 | Train Loss: 0.0242601 | Vali Loss: 0.0228068
+2026-11-23 17:17:49,127 - Epoch 6: Lr: 0.0002156 | Train Loss: 0.0231051 | Vali Loss: 0.0215168
+2026-11-23 17:19:16,723 - Epoch 7: Lr: 0.0002445 | Train Loss: 0.0220310 | Vali Loss: 0.0207455
+2026-11-23 17:20:44,618 - Epoch 8: Lr: 0.0002770 | Train Loss: 0.0212680 | Vali Loss: 0.0201580
+2026-11-23 17:22:12,555 - Epoch 9: Lr: 0.0003129 | Train Loss: 0.0206435 | Vali Loss: 0.0201203
+2026-11-23 17:23:40,599 - Epoch 10: Lr: 0.0003523 | Train Loss: 0.0198409 | Vali Loss: 0.0189727
+2026-11-23 17:25:08,687 - Epoch 11: Lr: 0.0003950 | Train Loss: 0.0192907 | Vali Loss: 0.0185738
